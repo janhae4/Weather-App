@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const wind = document.querySelector('.weather-status.extra .wind');
     const city = document.querySelector('.weather-status .city');
     const degree = document.querySelector('.weather-status .degree');
+    const content = document.querySelector('.weather-content');
 
     const icon = {
         '01d': '☀️',
@@ -30,6 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         '50n': '🌫️',
     }
 
+    const toggle = () => {
+
+        if (!content.classList.contains('close')) 
+            content.classList.add('close');
+        setTimeout(() => {
+            content.classList.remove('close');
+        }, 200)
+        
+    }
+
     searchBtn.addEventListener('click', () => {
         const title = document.querySelector('h1.title');
         const cityValue = searchInput.value;
@@ -44,19 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return res.json();
         })
         .then(data => {
-            console.log(data);
-            city.textContent = data.name;
-            degree.textContent = data.main.temp + '°C';
-            humidity.querySelector('span p').textContent = data.main.humidity + '%';
-            wind.querySelector('span p').textContent = data.wind.speed + 'km/h';
-            weatherIcon.textContent = icon[data.weather[0].icon];
+            setTimeout(() => {
+                
+                city.textContent = data.name;
+                degree.textContent = data.main.temp + '°C';
+                humidity.querySelector('span p').textContent = data.main.humidity + '%';
+                wind.querySelector('span p').textContent = data.wind.speed + 'km/h';
+                weatherIcon.textContent = icon[data.weather[0].icon];
+            }, 500);
 
             title.classList.remove('on');
             searchInput.classList.remove('on');
-            weatherIcon.classList.remove('close');
-            weatherStatus.classList.remove('close');
-            humidity.classList.remove('close');
-            wind.classList.remove('close');
+            toggle();
+            
         })
         .catch(err => {
                 console.log(err);
